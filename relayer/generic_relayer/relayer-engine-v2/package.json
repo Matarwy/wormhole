@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx src/app.ts --flag=testnet",
+    "start": "node init && tsx src/app.ts --flag=testnet",
     "testnet": "tsx src/app.ts --flag=testnet",
     "tilt": "tsx src/app.ts --flag=tilt",
     "tiltkub": "tsx src/app.ts --flag=tiltkub",
     "prettier": "prettier --write .",
-    "build": "tsc",
+    "build": "node init && tsc",
     "typecheck": "tsc --noEmit --skipLibCheck",
     "watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jest --verbose",
     "test-ci": "jest --verbose --setupFiles ./ci-config.js --forceExit",
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.types.json"
+    "build": "node init && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.types.json"
   },
   "keywords": [
     "wormhole",

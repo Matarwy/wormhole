@@ -10,10 +10,10 @@
   ],
   "repository": "https://github.com/wormhole-foundation/wormhole/tree/main/sdk/js-wasm",
   "scripts": {
-    "build-deps": "cd ../.. && DOCKER_BUILDKIT=1 docker build -f solana/Dockerfile.wasm -o type=local,dest=. solana",
-    "build-lib": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node scripts/copyWasm.js",
-    "build-all": "npm run build-deps && npm run build-lib",
-    "build": "npm run build-all"
+    "build-deps": "node init && cd ../.. && DOCKER_BUILDKIT=1 docker build -f solana/Dockerfile.wasm -o type=local,dest=. solana",
+    "build-lib": "node init && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node scripts/copyWasm.js",
+    "build-all": "node init && npm run build-deps && npm run build-lib",
+    "build": "node init && npm run build-all"
   },
   "keywords": [
     "wormhole",

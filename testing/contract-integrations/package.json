@@ -7,7 +7,7 @@
     "test": "npm run generate && tsc && jest --config jestconfig.json --verbose",
     "genTypes": "typechain --target ethers-v5 --out-dir ethers-contracts/abi --show-stack-traces ./build/contracts/*.json",
     "generate": "rimraf lib && rimraf ethers-contracts && rimraf build && truffle compile && npm run genTypes",
-    "build": "truffle compile",
+    "build": "node init && truffle compile",
     "truffle": "truffle"
   },
   "author": "",
